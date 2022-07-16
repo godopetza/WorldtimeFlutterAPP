@@ -7,7 +7,6 @@ class ChooseLocation extends StatefulWidget {
 }
 
 class _ChooseLocationState extends State<ChooseLocation> {
-
   List<WorldTime> locations = [
     WorldTime(url_: 'Europe/London', location: 'London', flag: 'uk.png'),
     WorldTime(url_: 'Europe/Berlin', location: 'Athens', flag: 'greece.png'),
@@ -23,6 +22,7 @@ class _ChooseLocationState extends State<ChooseLocation> {
     WorldTime instance = locations[index];
     await instance.getTime();
     //navigate to home screen
+    // ignore: use_build_context_synchronously
     Navigator.pop(context, {
       'location': instance.location,
       'flag': instance.flag,
@@ -37,27 +37,28 @@ class _ChooseLocationState extends State<ChooseLocation> {
       backgroundColor: Colors.grey[200],
       appBar: AppBar(
         backgroundColor: Colors.blue[900],
-        title: Text('Choose Location'),
+        title: const Text('Choose Location'),
         centerTitle: true,
         elevation: 0,
       ),
       body: ListView.builder(
-        itemBuilder: (context, index){
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
-              child: Card(
-                child: ListTile(
-                  onTap: () {
-                    updateTime(index);
-                  },
-                  title: Text(locations[index].location),
-                  leading: CircleAvatar(
-                    backgroundImage: AssetImage('assets/${locations[index].flag}'),
-                  ),
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.symmetric(vertical: 1.0, horizontal: 4.0),
+            child: Card(
+              child: ListTile(
+                onTap: () {
+                  updateTime(index);
+                },
+                title: Text(locations[index].location),
+                leading: CircleAvatar(
+                  backgroundImage:
+                      AssetImage('assets/${locations[index].flag}'),
                 ),
               ),
-            );
-          },
+            ),
+          );
+        },
         itemCount: locations.length,
       ),
     );
